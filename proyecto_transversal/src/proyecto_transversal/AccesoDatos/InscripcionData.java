@@ -45,12 +45,12 @@ public class InscripcionData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al conectarse con base de datos "+ex.getMessage());
         }
     }
     
     public List<Inscripcion> obtenerInscripciones(){
-        List<Inscripcion> inscripciones = new ArrayList();
+        List<Inscripcion> inscripciones = new ArrayList<>();
         try{
             String sql = "SELECT * FROM inscripcion WHERE estado = 1";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class InscripcionData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Error al conectarse con base de datos "+ex.getMessage());
         }
         return inscripciones;
     }
@@ -94,18 +94,18 @@ public class InscripcionData {
                 inscripcion.setMateria(mData.buscarMateria(rs.getInt("id_materia")));
                 inscripcion.setActivo(true);
             }else{
-                JOptionPane.showMessageDialog(null, "La inscripcion no existe");
+                JOptionPane.showMessageDialog(null, "La inscripcion no existe ");
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la lista de inscripciones "+ex.getMessage());
         }
         return inscripciones;
     }
     
     public List<Materia> obtenerMateriasCursadas(int idMateria){
         Materia materia = null;
-        List <Materia> materias = new ArrayList();
+        List <Materia> materias = new ArrayList<>();
         String sql="SELECT * FROM inscripcion "
                 + "WHERE id_materia=? AND estado = 1";
         PreparedStatement ps=null;
@@ -129,6 +129,61 @@ public class InscripcionData {
             Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return materias;
+    }
+    
+    //obtener materias cursadas por el alumno
+    public List <Materia> obtenerMateriasCursadasV2(int idAlumno){
+        List <Materia> listaMaterias= new ArrayList<>();
+        String sql= "SELECT * FROM  materia m JOIN inscripcion i ON m.ID_materia= i.ID_materia where ID_alumno= ?;";
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ResultSet rs= ps.executeQuery();
+            if(rs.next()){
+            Materia mat= new Materia();
+            mat.setIdMateria(rs.getInt("id_materia"));
+            mat.setNombre(rs.getString("nombre"));
+            mat.setAnioMateria(rs.getInt("año"));
+            mat.setActivo(rs.getBoolean("estado"));
+            listaMaterias.add(mat);
+            }
+            else{
+               JOptionPane.showMessageDialog(null, "El alumno no ha cursado ninguna materia");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null, "Error al acceder a base de datos");
+        }
+    
+        return listaMaterias;
+    }
+    
+     //obtener materias no cursadas por el alumno buscando por idALumno
+    public List <Materia> obtenerMateriasNoCursadasV2(int idAlumno){
+        List <Materia> listaMaterias= new ArrayList<>();
+        String sql= "SELECT * FROM materia m LEFT JOIN inscripcion i ON m.id_materia= i.id_materia "
+               + "AND i.id_alumno= ? WHERE i.id_materia IS NULL";
+        try {
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ResultSet rs= ps.executeQuery();
+            if(rs.next()){
+            Materia mat= new Materia();
+            mat.setIdMateria(rs.getInt("id_materia"));
+            mat.setNombre(rs.getString("nombre"));
+            mat.setAnioMateria(rs.getInt("año"));
+            mat.setActivo(rs.getBoolean("estado"));
+            listaMaterias.add(mat);
+            }
+            else{
+               JOptionPane.showMessageDialog(null, "El alumno ha cursado todas las materias");
+            }
+            ps.close();
+        } catch (SQLException ex) {
+             JOptionPane.showMessageDialog(null, "Error al acceder a base de datos");
+        }
+    
+        return listaMaterias;
     }
     
     public List<Materia> obtenerMateriasNoCursadas(int idMateria){

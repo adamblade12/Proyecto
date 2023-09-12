@@ -17,9 +17,11 @@ import javax.swing.JOptionPane;
  * @author pablo
  */
 public class Conexion {
-    private static String url="jdbc:mysql://localhost/tp2_ejercicio1";
-    private static String usuario="root";
-    private static String password="";
+    //por convención las constantes van en mayuscula
+    private static String URL="jdbc:mysql://localhost/";
+    private static String DB="tp2_ejercicio1";
+    private static String USUARIO="root";
+    private static String PASSWORD="";
 
    
     private static Conexion conexion=null;
@@ -43,7 +45,7 @@ public class Conexion {
         }
         try {
             // Setup the connection with the DB
-            con = DriverManager.getConnection(url + "?useLegacyDatetimeCode=false&serverTimezone=UTC" + "&user=" + usuario + "&password=" + password);
+            con = DriverManager.getConnection(URL+DB + "?useLegacyDatetimeCode=false&serverTimezone=UTC" + "&user=" + USUARIO + "&password=" + PASSWORD);
             
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error de conexion ");

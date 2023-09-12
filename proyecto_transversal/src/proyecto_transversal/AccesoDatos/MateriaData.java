@@ -44,7 +44,7 @@ public class MateriaData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al añadir materia "+ex.getMessage());
         }
     }
     
@@ -70,7 +70,7 @@ public class MateriaData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la lista de materias "+ex.getMessage());
         }
         return materia;
     }
@@ -94,7 +94,7 @@ public class MateriaData {
                 JOptionPane.showMessageDialog(null, "La materia no existe");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Error al acceder a la lista de materias "+ex.getMessage());
         }
     }
     
@@ -106,16 +106,16 @@ public class MateriaData {
             int fila = ps.executeUpdate();
             
             if(fila == 1){
-                JOptionPane.showMessageDialog(null, "Se elimino al alumno");
+                JOptionPane.showMessageDialog(null, "Se elimino la materia");
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la lista de materias "+ex.getMessage());
         }
     }
     
     public List<Materia> listarMaterias(){
-        List<Materia> materias = new ArrayList();
+        List<Materia> materias = new ArrayList<>();
         try{
             String sql = "SELECT * FROM materia WHERE estado = 1";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -131,7 +131,7 @@ public class MateriaData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al acceder a la lista de materias "+ex.getMessage());
         }
         return materias;
     }

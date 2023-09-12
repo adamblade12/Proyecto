@@ -102,13 +102,13 @@ public class AlumnoData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Error al acceder a lista de alumnos "+ex.getMessage() );
         }
         return alumno;
     }
     
     public List<Alumno> listarAlumnos(){
-        List<Alumno> alumnos = new ArrayList();
+        List<Alumno> alumnos = new ArrayList<>();
         try{
             String sql = "SELECT * FROM alumno WHERE estado = 1";
             PreparedStatement ps = con.prepareStatement(sql);
@@ -126,7 +126,7 @@ public class AlumnoData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al acceder a lista de alumnos "+ex.getMessage() );
         }
         return alumnos;
     }
@@ -142,7 +142,8 @@ public class AlumnoData {
             ps.setString(2, alumno.getApellido());
             ps.setString(3, alumno.getNombre());
             ps.setDate(4, Date.valueOf(alumno.getFechaNac()));
-            ps.setInt(5, alumno.getIdAlumno());
+            ps.setBoolean(5, alumno.isActivo());
+            ps.setInt(6, alumno.getIdAlumno());
             int exito = ps.executeUpdate();
             
             if(exito == 1){
@@ -151,7 +152,7 @@ public class AlumnoData {
                 JOptionPane.showMessageDialog(null, "El alumno no existe");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al acceder a lista de alumnos "+ex.getMessage() );
         }
     }
     
@@ -167,7 +168,7 @@ public class AlumnoData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Error al acceder a lista de alumnos "+ex.getMessage() );
         }
     }
 }
