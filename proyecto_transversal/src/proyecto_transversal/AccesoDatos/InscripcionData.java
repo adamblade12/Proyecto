@@ -104,6 +104,7 @@ public class InscripcionData {
                 inscripcion.setAlumno(aData.buscarAlumno(rs.getInt("id_alumno")));
                 inscripcion.setMateria(mData.buscarMateria(rs.getInt("id_materia")));
                 inscripcion.setActivo(true);
+                //se recuperan los campos de la base de datos para mostrarlos.
             }else{
                 JOptionPane.showMessageDialog(null, "La inscripcion no existe ");
             }
