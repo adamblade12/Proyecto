@@ -32,6 +32,7 @@ public class InscripcionData {
     
     public void guardarInscripcion(Inscripcion inscripcion){
         String sql="INSERT INTO inscripcion (nota, id_alumno, id_materia) VALUES(?,?,?)";
+        //Ingreso de nuevo dato de incripcion, que viene por parámetro (agregado por la interfaz gráfica sin id), a mi base de datos.
         try{
             PreparedStatement ps= con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             //devuelve el id de inscripcion generado automaticamente.
@@ -46,6 +47,7 @@ public class InscripcionData {
             ResultSet rs = ps.getGeneratedKeys();
             //Obtiene el valor del id.
             if(rs.next()){
+                //Guardo el id generado automaticamente en mi instancia inscripcion.
                 inscripcion.setIdInscripcion(rs.getInt("id_inscripcion"));
                 JOptionPane.showMessageDialog(null, "Inscripcion añadida con exito");
             }
@@ -61,6 +63,7 @@ public class InscripcionData {
             String sql = "SELECT * FROM inscripcion WHERE estado = 1";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+            //Devuelve los valores de la tabla que quiero mostrar.
             while(rs.next()){
                 Inscripcion inscripcion = new Inscripcion();
                 AlumnoData aData = new AlumnoData();
@@ -84,10 +87,12 @@ public class InscripcionData {
         List <Inscripcion> inscripciones = new ArrayList();
         String sql="SELECT * FROM inscripcion "
                 + "WHERE dni = ? AND estado = 1";
+        // el signo de pregunta en dni es un dato dinamico.
         PreparedStatement ps=null;
         try{
             ps = con.prepareStatement(sql);
             ps.setInt(1, idAlumno);
+            //guardamos en el signo de pregunta el idAlumno, (no seria el dni?)
             ResultSet rs = ps.executeQuery();
             AlumnoData aData = new AlumnoData();
             MateriaData mData = new MateriaData();
