@@ -32,10 +32,11 @@ dónde se encuentra.*/
             
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Clase Conexion: Error al cargar Driver");
+            //La invocación Class.forName() podría lanzar la ClassNotFoundException si no cargamos previamente dicha librería.
         }
     }
 
-     //Método que devuelve un objeto de tipo Connection.
+     //Método que devuelve un objeto de tipo Connection. 
     public static Connection getConexion() {
         Connection con=null;
       if(conexion == null){
@@ -45,11 +46,12 @@ dónde se encuentra.*/
         try {
             // Setup the connection with the DB
             con = DriverManager.getConnection(URL+DB + "?useLegacyDatetimeCode=false&serverTimezone=UTC" + "&user=" + USUARIO + "&password=" + PASSWORD);
-            
+            //Método de la clase DriverManager.
         }catch (SQLException ex) {
+            //si la cadena que le pasamos como parámetro es incorrecta
             JOptionPane.showMessageDialog(null, "Error de conexion ");
         }
-        
+        //retorna el objeto Connection.
         return con;
     }
     
