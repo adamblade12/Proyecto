@@ -11,7 +11,9 @@ package proyecto_transversal.Entidades;
  */
 public class Inscripcion {
     private int idInscripcion;
+    //asociación a la entidad Alumno. Clave foránea en base de datos.
     private Alumno alumno;
+    //asociacion a la entidad Materia. Clave foránea en base de datos.
     private Materia materia;
     private double nota;
     private boolean activo;
