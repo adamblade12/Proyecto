@@ -17,7 +17,7 @@ public class Conexion {
     /*conexión utilizando jdbc a una base de datos MySql en la misma PC (localhost); si la base de
 datos se encontrara en otro host, reemplazaríamos localhost por el ip o nombre del equipo en
 dónde se encuentra.*/
-    private static String DB="tp2_ejercicio1";
+    private static String DB="proyecto_transversal";
     //nombre de la base de datos
     private static String USUARIO="root";
     private static String PASSWORD="";
