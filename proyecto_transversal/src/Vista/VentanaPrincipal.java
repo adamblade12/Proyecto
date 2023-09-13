@@ -150,7 +150,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Escritorio.removeAll();
         Escritorio.repaint();
         
-        Alumno alumno = new Alumno();
+        AdministrarAlumno alumno = new AdministrarAlumno();
         alumno.setVisible(true);
         Escritorio.add(alumno);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -160,7 +160,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         Escritorio.removeAll();
         Escritorio.repaint();
         
-        Materia materia = new Materia();
+        AdministrarMaterias materia = new AdministrarMaterias();
         materia.setVisible(true);
         Escritorio.add(materia);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
