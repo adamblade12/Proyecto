@@ -34,11 +34,17 @@ public class InscripcionData {
         String sql="INSERT INTO inscripcion (nota, id_alumno, id_materia) VALUES(?,?,?)";
         try{
             PreparedStatement ps= con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            //devuelve el id de inscripcion generado automaticamente.
             ps.setDouble(1, inscripcion.getNota());
+            //carga el primer signo de pregunta con el valor de la nota.
             ps.setInt(2, inscripcion.getMateria().getIdMateria());
+            //carga el segundo signo de pregunta con el valor del id_alumno.
             ps.setInt(3, inscripcion.getAlumno().getIdAlumno());
+            //carga el tercer signo de pregunto con el valor del id_materia.
             ps.executeUpdate();
+            //ejecuta la sentencia
             ResultSet rs = ps.getGeneratedKeys();
+            //Obtiene el valor del id.
             if(rs.next()){
                 inscripcion.setIdInscripcion(rs.getInt("id_inscripcion"));
                 JOptionPane.showMessageDialog(null, "Inscripcion añadida con exito");

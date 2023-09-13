@@ -27,6 +27,7 @@ public class AlumnoData {
 
     public AlumnoData() {
         con = Conexion.getConexion();
+        //Invoca al método de la clase conexion que devuelve Connection
     }
     
     public void guardarAlumno(Alumno alumno){
