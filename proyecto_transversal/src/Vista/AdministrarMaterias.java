@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import javax.swing.JOptionPane;
 import proyecto_transversal.AccesoDatos.MateriaData;
 import proyecto_transversal.Entidades.Materia;
 
@@ -220,10 +221,18 @@ public class AdministrarMaterias extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         MateriaData mData = new MateriaData();
         Materia materia = new Materia();
+        try{
         materia = mData.buscarMateria(Integer.parseInt(jtCodigo.getText()));
         jtNombre.setText(materia.getNombre());
         jtAño.setText(""+materia.getAnioMateria());
         jrEstado.setSelected(materia.isActivo());
+                 }catch(NumberFormatException ex){
+        JOptionPane.showMessageDialog(null, "Ingrese un número entero positivo " + ex.getMessage());
+        }catch(NullPointerException ex){
+        JOptionPane.showMessageDialog(null, "La materia no existe "+ ex.getMessage());
+        }
+                                           
+
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void jbNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbNuevoActionPerformed
