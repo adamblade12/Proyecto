@@ -5,10 +5,11 @@
  */
 package Vista;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.time.Month;
 import java.time.ZoneId;
 import static java.time.temporal.TemporalQueries.zoneId;
+import javax.swing.JOptionPane;
 import proyecto_transversal.AccesoDatos.AlumnoData;
 import proyecto_transversal.Entidades.Alumno;
 
@@ -238,10 +239,19 @@ public class AdministrarAlumno extends javax.swing.JInternalFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         // TODO add your handling code here:
         AlumnoData aData= new AlumnoData();
+        try{
         Alumno alumno = aData.buscarPorDni(Integer.parseInt(jtdni.getText()));
         jtApellido.setText(alumno.getApellido());
         jtNombre.setText(alumno.getNombre());
         jrEstado.setSelected(alumno.isActivo());
+        Date fechaNac= Date.valueOf(alumno.getFechaNac());
+        jdcFechaNacimiento.setDate(fechaNac);
+           }catch(NumberFormatException ex){
+        JOptionPane.showMessageDialog(null, "Ingrese un número entero positivo " + ex.getMessage());
+        }catch(NullPointerException ex){
+        JOptionPane.showMessageDialog(null, "El alumno no existe "+ ex.getMessage());
+        }
+        
         
     }//GEN-LAST:event_jbBuscarActionPerformed
 
