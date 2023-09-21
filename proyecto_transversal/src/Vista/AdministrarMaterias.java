@@ -258,6 +258,7 @@ public class AdministrarMaterias extends javax.swing.JInternalFrame {
         materia.setNombre(jtNombre.getText());
         materia.setAnioMateria(Integer.parseInt(jtAño.getText()));
         materia.setActivo(jrEstado.isSelected());
+        materia.setIdMateria(Integer.parseInt(jtCodigo.getText()));
         mData.modificarMateria(materia);
     }//GEN-LAST:event_jbGuardarActionPerformed
 
