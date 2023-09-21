@@ -39,7 +39,7 @@ public class MateriaData {
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()){
-                materia.setIdMateria(rs.getInt("id_materia"));
+                materia.setIdMateria(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Materia añadida con exito");
             }
             ps.close();
@@ -50,7 +50,7 @@ public class MateriaData {
     
     public Materia buscarMateria(int idMateria){
         Materia materia = null;
-        String sql="SELECT id_materia,nombre,año,estado FROM materia "
+        String sql="SELECT * FROM materia "
                 + "WHERE id_materia = ? AND estado = 1";
         PreparedStatement ps = null;
         
@@ -65,9 +65,7 @@ public class MateriaData {
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("año"));
                 materia.setActivo(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "No existe la materia");
-            }
+            }//le borre el else para no tener un doble cartel, cuando no existe la materia AdministrarMateria tira NullPointException
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la lista de materias "+ex.getMessage());
