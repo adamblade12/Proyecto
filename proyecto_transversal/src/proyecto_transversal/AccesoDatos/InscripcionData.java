@@ -28,7 +28,9 @@ public class InscripcionData {
     MateriaData matData;
     AlumnoData alumnoData;
     
-    public InscripcionData(){}
+    public InscripcionData(){
+    con= Conexion.getConexion();
+    }
     
     public void guardarInscripcion(Inscripcion inscripcion){
         String sql="INSERT INTO inscripcion (nota, id_alumno, id_materia) VALUES(?,?,?)";
@@ -48,7 +50,7 @@ public class InscripcionData {
             //Obtiene el valor del id.
             if(rs.next()){
                 //Guardo el id generado automaticamente en mi instancia inscripcion.
-                inscripcion.setIdInscripcion(rs.getInt("id_inscripcion"));
+                inscripcion.setIdInscripcion(rs.getInt(1));//si le ponia el nombre de la columna no la reconocia
                 JOptionPane.showMessageDialog(null, "Inscripcion añadida con exito");
             }
             ps.close();
@@ -151,21 +153,24 @@ public class InscripcionData {
             PreparedStatement ps= con.prepareStatement(sql);
             ps.setInt(1, idAlumno);
             ResultSet rs= ps.executeQuery();
-            if(rs.next()){
+            while(rs.next()){//si le pongo if solo me traeria la primer fila y no veria si hay más materias
             Materia mat= new Materia();
             mat.setIdMateria(rs.getInt("id_materia"));
             mat.setNombre(rs.getString("nombre"));
             mat.setAnioMateria(rs.getInt("año"));
             mat.setActivo(rs.getBoolean("estado"));
             listaMaterias.add(mat);
-            }
+            }/*
             else{
                JOptionPane.showMessageDialog(null, "El alumno no ha cursado ninguna materia");
-            }
+            }*/
             ps.close();
         } catch (SQLException ex) {
-             JOptionPane.showMessageDialog(null, "Error al acceder a base de datos");
+             JOptionPane.showMessageDialog(null, "Error al acceder a base de datos "+ ex.getMessage());
+        }catch(NullPointerException e){//si el resultado trae una lista vacia dará error de null, por eso se agrega esta excepcion
+        JOptionPane.showMessageDialog(null, "El alumno no ha cursado ninguna materia "+ e.getMessage());
         }
+    
     
         return listaMaterias;
     }
@@ -179,20 +184,22 @@ public class InscripcionData {
             PreparedStatement ps= con.prepareStatement(sql);
             ps.setInt(1, idAlumno);
             ResultSet rs= ps.executeQuery();
-            if(rs.next()){
+            while(rs.next()){
             Materia mat= new Materia();
             mat.setIdMateria(rs.getInt("id_materia"));
             mat.setNombre(rs.getString("nombre"));
             mat.setAnioMateria(rs.getInt("año"));
             mat.setActivo(rs.getBoolean("estado"));
             listaMaterias.add(mat);
-            }
+            }/*
             else{
                JOptionPane.showMessageDialog(null, "El alumno ha cursado todas las materias");
-            }
+            }*/
             ps.close();
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null, "Error al acceder a base de datos");
+        }catch(NullPointerException e){
+        JOptionPane.showMessageDialog(null, "El alumno ha cursado todas las materias "+ e.getMessage());
         }
     
         return listaMaterias;

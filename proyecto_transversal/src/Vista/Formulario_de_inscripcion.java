@@ -28,6 +28,10 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
      */
     public Formulario_de_inscripcion() {
         initComponents();
+        modeloTabla();
+        cargarCombo();
+       
+        
     }
 
     /**
@@ -60,7 +64,8 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
                     ,lista.getNombre()
                     ,lista.getAnioMateria()});
             }
-        }else{
+        }/*else{ */
+        if(jrMateriasNoI.isSelected()){
             jrMateriasI.setSelected(false);
             List<Materia> materias = iData.obtenerMateriasNoCursadasV2(alumno.getIdAlumno());
             for(Materia lista: materias){
@@ -109,9 +114,19 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
 
         jrMateriasI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrMateriasI.setText("Materias inscriptas");
+        jrMateriasI.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jrMateriasIMouseClicked(evt);
+            }
+        });
 
         jrMateriasNoI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrMateriasNoI.setText("Materias no inscriptas");
+        jrMateriasNoI.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jrMateriasNoIMouseClicked(evt);
+            }
+        });
 
         jtMaterias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -275,6 +290,14 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
+
+    private void jrMateriasIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrMateriasIMouseClicked
+cargarTabla();        // TODO add your handling code here:
+    }//GEN-LAST:event_jrMateriasIMouseClicked
+
+    private void jrMateriasNoIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrMateriasNoIMouseClicked
+cargarTabla();        // TODO add your handling code here:
+    }//GEN-LAST:event_jrMateriasNoIMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
