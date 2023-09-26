@@ -214,7 +214,7 @@ public class InscripcionData {
                 materia.setIdMateria(rs.getInt("id_materia"));
                 materia.setNombre(mData.buscarMateria(idMateria).getNombre());
                 materia.setAnioMateria(mData.buscarMateria(idMateria).getAnioMateria());
-                materia.setActivo(true);
+                materia.setActivo(mData.buscarMateria(idMateria).isActivo());
             }else{
                 JOptionPane.showMessageDialog(null, "La materia no existe");
             }
