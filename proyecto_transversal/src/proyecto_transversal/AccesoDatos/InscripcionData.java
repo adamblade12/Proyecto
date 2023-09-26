@@ -129,14 +129,12 @@ public class InscripcionData {
             ResultSet rs = ps.executeQuery();
             MateriaData mData = new MateriaData();
             
-            if(rs.next()){
+            while(rs.next()){
                 materia = new Materia();
                 materia.setIdMateria(rs.getInt("id_materia"));
                 materia.setNombre(mData.buscarMateria(idMateria).getNombre());
                 materia.setAnioMateria(mData.buscarMateria(idMateria).getAnioMateria());
-                materia.setActivo(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "La materia no existe");
+                materia.setActivo(mData.buscarMateria(idMateria).isActivo());
             }
             ps.close();
         } catch (SQLException ex) {
@@ -154,16 +152,13 @@ public class InscripcionData {
             ps.setInt(1, idAlumno);
             ResultSet rs= ps.executeQuery();
             while(rs.next()){//si le pongo if solo me traeria la primer fila y no veria si hay más materias
-            Materia mat= new Materia();
-            mat.setIdMateria(rs.getInt("id_materia"));
-            mat.setNombre(rs.getString("nombre"));
-            mat.setAnioMateria(rs.getInt("año"));
-            mat.setActivo(rs.getBoolean("estado"));
-            listaMaterias.add(mat);
-            }/*
-            else{
-               JOptionPane.showMessageDialog(null, "El alumno no ha cursado ninguna materia");
-            }*/
+                Materia mat= new Materia();
+                mat.setIdMateria(rs.getInt("id_materia"));
+                mat.setNombre(rs.getString("nombre"));
+                mat.setAnioMateria(rs.getInt("año"));
+                mat.setActivo(rs.getBoolean("estado"));
+                listaMaterias.add(mat);
+            }
             ps.close();
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null, "Error al acceder a base de datos "+ ex.getMessage());
@@ -185,16 +180,13 @@ public class InscripcionData {
             ps.setInt(1, idAlumno);
             ResultSet rs= ps.executeQuery();
             while(rs.next()){
-            Materia mat= new Materia();
-            mat.setIdMateria(rs.getInt("id_materia"));
-            mat.setNombre(rs.getString("nombre"));
-            mat.setAnioMateria(rs.getInt("año"));
-            mat.setActivo(rs.getBoolean("estado"));
-            listaMaterias.add(mat);
-            }/*
-            else{
-               JOptionPane.showMessageDialog(null, "El alumno ha cursado todas las materias");
-            }*/
+                Materia mat= new Materia();
+                mat.setIdMateria(rs.getInt("id_materia"));
+                mat.setNombre(rs.getString("nombre"));
+                mat.setAnioMateria(rs.getInt("año"));
+                mat.setActivo(rs.getBoolean("estado"));
+                listaMaterias.add(mat);
+            }
             ps.close();
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null, "Error al acceder a base de datos");

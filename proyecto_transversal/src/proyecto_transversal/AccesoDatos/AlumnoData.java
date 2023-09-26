@@ -54,7 +54,7 @@ public class AlumnoData {
     
     public Alumno buscarAlumno(int idAlumno){
         Alumno alumno=null;
-        String sql="SELECT id_alumno,dni,apellido,nombre,fecha_nacimiento FROM alumno "
+        String sql="SELECT * FROM alumno "
                 + "WHERE id_alumno = ? AND estado = 1";
         PreparedStatement ps=null;
         try{
@@ -69,7 +69,7 @@ public class AlumnoData {
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setFechaNac(rs.getDate("fecha_nacimiento").toLocalDate());
-                alumno.setActivo(true);
+                alumno.setActivo(rs.getBoolean("estado"));
             }else{
                 JOptionPane.showMessageDialog(null, "No existe el alumno");
             }
@@ -82,8 +82,8 @@ public class AlumnoData {
     
     public Alumno buscarPorDni(int dni){
         Alumno alumno=null;
-        String sql="SELECT id_alumno,dni, apellido, nombre, estado FROM alumno "
-                + "WHERE dni = ? AND estado = 1";
+        String sql="SELECT * FROM alumno "
+                + "WHERE dni = ?";
         PreparedStatement ps=null;
         try{
             ps = con.prepareStatement(sql);
@@ -97,7 +97,7 @@ public class AlumnoData {
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setFechaNac(rs.getDate("fecha_nacimiento").toLocalDate());
-                alumno.setActivo(true);
+                alumno.setActivo(rs.getBoolean("estado"));
             }else{
                 JOptionPane.showMessageDialog(null, "No existe el alumno");
             }
