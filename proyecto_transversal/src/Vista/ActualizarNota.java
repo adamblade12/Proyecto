@@ -210,11 +210,11 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
         int idAlumno=0,idMateria=0;
         AlumnoData aData = new AlumnoData();
         String dni = jcAlumnos.getSelectedItem().toString();
-        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));
+        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));//buscamos el alumno selec y sus datos
         InscripcionData iData = new InscripcionData();
-        List<Inscripcion> inscripciones = iData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
+        List<Inscripcion> inscripciones = iData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());//obtiene inscrip del alumno
         for(Inscripcion lista:inscripciones){
-            if(lista.getAlumno().getIdAlumno()==alumno.getIdAlumno()){
+            if(lista.getAlumno().getIdAlumno()==alumno.getIdAlumno()){//esto deberia ser igual porque la lista solo tiene las insc de ese alumno
                 idAlumno=lista.getAlumno().getIdAlumno();
                 idMateria=lista.getMateria().getIdMateria();
                 if(idMateria == 0 & idAlumno == 0){
@@ -223,7 +223,8 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
             }
         }
         int modificada = jtMaterias.getEditingRow();
-        iData.actualizarNota(idAlumno, idMateria, Integer.parseInt(tModelo.getValueAt(modificada, 2).toString()));
+        iData.actualizarNota(idAlumno, idMateria, Double.parseDouble(tModelo.getValueAt(modificada, 2).toString()));
+     //   iData.actualizarNota(idAlumno, idMateria, Integer.parseInt(tModelo.getValueAt(modificada, 2).toString()));
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed

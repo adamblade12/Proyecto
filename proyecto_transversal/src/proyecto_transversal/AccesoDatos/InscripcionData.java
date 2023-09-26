@@ -260,7 +260,7 @@ public class InscripcionData {
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+             JOptionPane.showMessageDialog(null, "Error al acceder a base de datos de notas "+ ex.getMessage());
         }
     }
     
