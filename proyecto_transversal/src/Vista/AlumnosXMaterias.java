@@ -26,8 +26,8 @@ public class AlumnosXMaterias extends javax.swing.JInternalFrame {
     public AlumnosXMaterias() {
         initComponents();
         cargarCombo();
-        borrarFilas();
-        cargarTabla();
+        modeloTabla();
+     
     }
 
     /**
@@ -93,6 +93,11 @@ public class AlumnosXMaterias extends javax.swing.JInternalFrame {
         jLabel2.setText("Seleccione la materia:");
 
         jcMaterias.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jcMaterias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcMateriasActionPerformed(evt);
+            }
+        });
 
         jtAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -191,6 +196,11 @@ public class AlumnosXMaterias extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jSalirActionPerformed
+
+    private void jcMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcMateriasActionPerformed
+borrarFilas();
+        cargarTabla();        // TODO add your handling code here:
+    }//GEN-LAST:event_jcMateriasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

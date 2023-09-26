@@ -272,8 +272,7 @@ public class InscripcionData {
     public List<Alumno> obtenerAlumnoXMateria(int idMateria){
         Alumno alumno = null;
         List<Alumno> alumnos = new ArrayList();
-        String sql="SELECT * FROM inscripcion "
-                + "WHERE id_materia = ? AND estado = 1";
+        String sql="SELECT * FROM inscripcion  WHERE id_materia = ? ";
         PreparedStatement ps=null;
         try{
             ps = con.prepareStatement(sql);
@@ -281,7 +280,7 @@ public class InscripcionData {
             ResultSet rs = ps.executeQuery();
             AlumnoData aData = new AlumnoData();
             
-            if(rs.next()){
+            while(rs.next()){
                 alumno = new Alumno();
                 alumno.setIdAlumno(rs.getInt("id_alumno"));
                 alumno.setDni(aData.buscarAlumno(rs.getInt("id_alumno")).getDni());
@@ -289,12 +288,15 @@ public class InscripcionData {
                 alumno.setApellido(aData.buscarAlumno(rs.getInt("id_alumno")).getApellido());
                 alumno.setFechaNac(aData.buscarAlumno(rs.getInt("id_alumno")).getFechaNac());
                 alumno.setActivo(true);
-            }else{
+                alumnos.add(alumno);
+            }/*else{
                 JOptionPane.showMessageDialog(null, "La inscripcion no existe");
-            }
+            }*/
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (NullPointerException ex){
+        JOptionPane.showMessageDialog(null, "No hay alumnos inscriptos en la materia "+ ex.getMessage());
         }
         return alumnos;
     }
