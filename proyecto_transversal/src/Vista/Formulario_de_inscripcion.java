@@ -50,31 +50,6 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
         jcAlumnos.setModel(modelo);
     }
     
-    public void cargarTabla(){
-        borrarFilas();
-        AlumnoData aData = new AlumnoData();
-        String dni = jcAlumnos.getSelectedItem().toString();
-        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));
-        InscripcionData iData = new InscripcionData();
-        if(jrMateriasI.isSelected()){
-            jrMateriasNoI.setSelected(false);
-            List<Materia> materias = iData.obtenerMateriasCursadasV2(alumno.getIdAlumno());
-            for(Materia lista: materias){
-            tModel.addRow(new Object[] {lista.getIdMateria()
-                    ,lista.getNombre()
-                    ,lista.getAnioMateria()});
-            }
-        }/*else{ */
-        if(jrMateriasNoI.isSelected()){
-            jrMateriasI.setSelected(false);
-            List<Materia> materias = iData.obtenerMateriasNoCursadasV2(alumno.getIdAlumno());
-            for(Materia lista: materias){
-            tModel.addRow(new Object[] {lista.getIdMateria()
-                    ,lista.getNombre()
-                    ,lista.getAnioMateria()});
-            }
-        }
-    }
     
     public void modeloTabla(){
         tModel.addColumn("ID");
@@ -93,6 +68,7 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -112,19 +88,21 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Listado de materias");
 
+        buttonGroup1.add(jrMateriasI);
         jrMateriasI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrMateriasI.setText("Materias inscriptas");
-        jrMateriasI.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jrMateriasIMouseClicked(evt);
+        jrMateriasI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrMateriasIActionPerformed(evt);
             }
         });
 
+        buttonGroup1.add(jrMateriasNoI);
         jrMateriasNoI.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jrMateriasNoI.setText("Materias no inscriptas");
-        jrMateriasNoI.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jrMateriasNoIMouseClicked(evt);
+        jrMateriasNoI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrMateriasNoIActionPerformed(evt);
             }
         });
 
@@ -291,16 +269,45 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jbSalirActionPerformed
 
-    private void jrMateriasIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrMateriasIMouseClicked
-cargarTabla();        // TODO add your handling code here:
-    }//GEN-LAST:event_jrMateriasIMouseClicked
+    private void jrMateriasNoIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrMateriasNoIActionPerformed
+        // TODO add your handling code here:
+        borrarFilas();
+        AlumnoData aData = new AlumnoData();
+        String dni = jcAlumnos.getSelectedItem().toString();
+        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));
+        InscripcionData iData = new InscripcionData();
+        if(jrMateriasNoI.isSelected()){
+            jrMateriasI.setSelected(false);
+            List<Materia> materias = iData.obtenerMateriasNoCursadasV2(alumno.getIdAlumno());
+            for(Materia lista: materias){
+                tModel.addRow(new Object[] {lista.getIdMateria()
+                    ,lista.getNombre()
+                    ,lista.getAnioMateria()});
+            }
+        }
+    }//GEN-LAST:event_jrMateriasNoIActionPerformed
 
-    private void jrMateriasNoIMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jrMateriasNoIMouseClicked
-cargarTabla();        // TODO add your handling code here:
-    }//GEN-LAST:event_jrMateriasNoIMouseClicked
+    private void jrMateriasIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrMateriasIActionPerformed
+        // TODO add your handling code here:
+        borrarFilas();
+        AlumnoData aData = new AlumnoData();
+        String dni = jcAlumnos.getSelectedItem().toString();
+        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));
+        InscripcionData iData = new InscripcionData();
+        if(jrMateriasI.isSelected()){
+            jrMateriasNoI.setSelected(false);
+            List<Materia> materias = iData.obtenerMateriasCursadasV2(alumno.getIdAlumno());
+            for(Materia lista: materias){
+            tModel.addRow(new Object[] {lista.getIdMateria()
+                    ,lista.getNombre()
+                    ,lista.getAnioMateria()});
+            }
+        }
+    }//GEN-LAST:event_jrMateriasIActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
