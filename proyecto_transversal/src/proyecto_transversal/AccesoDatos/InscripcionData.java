@@ -86,9 +86,9 @@ public class InscripcionData {
     
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int idAlumno){
         Inscripcion inscripcion=null;
-        List <Inscripcion> inscripciones = new ArrayList();
+        List <Inscripcion> inscripciones = new ArrayList<>();
         String sql="SELECT * FROM inscripcion "
-                + "WHERE dni = ? AND estado = 1";
+                + "WHERE id_alumno = ?";
         // el signo de pregunta en dni es un dato dinamico.
         PreparedStatement ps=null;
         try{
@@ -99,20 +99,23 @@ public class InscripcionData {
             AlumnoData aData = new AlumnoData();
             MateriaData mData = new MateriaData();
             
-            if(rs.next()){
+            while(rs.next()){
                 inscripcion = new Inscripcion();
                 inscripcion.setIdInscripcion(rs.getInt("id_inscripcion"));
                 inscripcion.setNota(rs.getInt("nota"));
                 inscripcion.setAlumno(aData.buscarAlumno(rs.getInt("id_alumno")));
                 inscripcion.setMateria(mData.buscarMateria(rs.getInt("id_materia")));
                 inscripcion.setActivo(true);
+                inscripciones.add(inscripcion);
                 //se recuperan los campos de la base de datos para mostrarlos.
-            }else{
+            }/*else{
                 JOptionPane.showMessageDialog(null, "La inscripcion no existe ");
-            }
+            }*/
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la lista de inscripciones "+ex.getMessage());
+        }catch (NullPointerException ex){
+        JOptionPane.showMessageDialog(null, "El alumno no esta inscripto a ninguna materia "+ ex.getMessage());
         }
         return inscripciones;
     }

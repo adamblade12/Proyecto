@@ -241,7 +241,7 @@ public class Formulario_de_inscripcion extends javax.swing.JInternalFrame {
         materia.setIdMateria(Integer.parseInt(tModel.getValueAt(seleccionado, 0).toString()));
         materia.setNombre(tModel.getValueAt(seleccionado, 1).toString());
         //Crea una inscripcion nueva
-        if(jrMateriasI.isSelected()){
+        if(jrMateriasNoI.isSelected()){
             InscripcionData iData = new InscripcionData();
             Inscripcion inscripcion = new Inscripcion();
             inscripcion.setAlumno(alumno);
