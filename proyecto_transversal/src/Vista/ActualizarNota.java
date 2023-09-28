@@ -13,6 +13,7 @@ import proyecto_transversal.AccesoDatos.AlumnoData;
 import proyecto_transversal.AccesoDatos.InscripcionData;
 import proyecto_transversal.Entidades.Alumno;
 import proyecto_transversal.Entidades.Inscripcion;
+import proyecto_transversal.Entidades.Materia;
 
 /**
  *
@@ -28,7 +29,6 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
         initComponents();
         modeloTabla();
         cargarCombo();
-        cargarTabla();
     }
 
     /**
@@ -58,9 +58,10 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
         borrarFilas();
         AlumnoData aData = new AlumnoData();
         String dni = jcAlumnos.getSelectedItem().toString();
-        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));
+        int dniAlumno=Integer.parseInt(dni.split(",")[0]);
+        Alumno alumno = aData.buscarPorDni(dniAlumno);
         InscripcionData iData = new InscripcionData();
-        List<Inscripcion> inscripciones = iData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
+        List<Inscripcion> inscripciones = iData.obtenerInscripcionesPorAlumno(dniAlumno);
         for(Inscripcion lista: inscripciones){
             tModelo.addRow(new Object[] {lista.getIdInscripcion()
                     ,lista.getMateria().getNombre()
@@ -208,23 +209,14 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
         int idAlumno=0,idMateria=0;
+        int modificada = jtMaterias.getEditingRow();
         AlumnoData aData = new AlumnoData();
         String dni = jcAlumnos.getSelectedItem().toString();
         Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));//buscamos el alumno selec y sus datos
         InscripcionData iData = new InscripcionData();
-        List<Inscripcion> inscripciones = iData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());//obtiene inscrip del alumno
-        for(Inscripcion lista:inscripciones){
-            if(lista.getAlumno().getIdAlumno()==alumno.getIdAlumno()){//esto deberia ser igual porque la lista solo tiene las insc de ese alumno
-                idAlumno=lista.getAlumno().getIdAlumno();
-                idMateria=lista.getMateria().getIdMateria();
-                if(idMateria == 0 & idAlumno == 0){
-                    JOptionPane.showMessageDialog(null, "El alumno no existe");
-                }
-            }
-        }
-        int modificada = jtMaterias.getEditingRow();
-        iData.actualizarNota(idAlumno, idMateria, Double.parseDouble(tModelo.getValueAt(modificada, 2).toString()));
-     //   iData.actualizarNota(idAlumno, idMateria, Integer.parseInt(tModelo.getValueAt(modificada, 2).toString()));
+        Materia materia = iData.obtenerMateriaXInscripcion(Integer.parseInt(tModelo.getValueAt(modificada, 0).toString()));
+        idMateria = materia.getIdMateria();
+        iData.actualizarNota(idAlumno, idMateria, Integer.parseInt(tModelo.getValueAt(modificada, 2).toString()));
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed
@@ -233,7 +225,7 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbSalirActionPerformed
 
     private void jcAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcAlumnosActionPerformed
-borrarFilas();
+
         cargarTabla();        // TODO add your handling code here:
     }//GEN-LAST:event_jcAlumnosActionPerformed
 
