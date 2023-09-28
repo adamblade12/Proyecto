@@ -40,9 +40,9 @@ public class InscripcionData {
             //devuelve el id de inscripcion generado automaticamente.
             ps.setDouble(1, inscripcion.getNota());
             //carga el primer signo de pregunta con el valor de la nota.
-            ps.setInt(2, inscripcion.getMateria().getIdMateria());
+            ps.setInt(2, inscripcion.getAlumno().getIdAlumno());
             //carga el segundo signo de pregunta con el valor del id_alumno.
-            ps.setInt(3, inscripcion.getAlumno().getIdAlumno());
+            ps.setInt(3, inscripcion.getMateria().getIdMateria());
             //carga el tercer signo de pregunto con el valor del id_materia.
             ps.executeUpdate();
             //ejecuta la sentencia
@@ -87,8 +87,8 @@ public class InscripcionData {
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int idAlumno){
         Inscripcion inscripcion=null;
         List <Inscripcion> inscripciones = new ArrayList<>();
-        String sql="SELECT * FROM inscripcion "
-                + "WHERE id_alumno = ?";
+        String sql="SELECT inscripcion.id_inscripcion, inscripcion.nota,inscripcion.id_alumno,inscripcion.estado FROM inscripcion JOIN alumno "
+                + "WHERE dni = ?";
         // el signo de pregunta en dni es un dato dinamico.
         PreparedStatement ps=null;
         try{
@@ -105,7 +105,7 @@ public class InscripcionData {
                 inscripcion.setNota(rs.getInt("nota"));
                 inscripcion.setAlumno(aData.buscarAlumno(rs.getInt("id_alumno")));
                 inscripcion.setMateria(mData.buscarMateria(rs.getInt("id_materia")));
-                inscripcion.setActivo(true);
+                inscripcion.setActivo(rs.getBoolean("estado"));
                 inscripciones.add(inscripcion);
                 //se recuperan los campos de la base de datos para mostrarlos.
             }/*else{
