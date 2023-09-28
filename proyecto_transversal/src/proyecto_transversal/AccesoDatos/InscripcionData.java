@@ -33,7 +33,7 @@ public class InscripcionData {
     }
     
     public void guardarInscripcion(Inscripcion inscripcion){
-        String sql="INSERT INTO inscripcion (nota, id_alumno, id_materia) VALUES(?,?,?)";
+        String sql="INSERT INTO inscripcion (nota, id_alumno, id_materia ,estado) VALUES(?,?,?)";
         //Ingreso de nuevo dato de incripcion, que viene por parámetro (agregado por la interfaz gráfica sin id), a mi base de datos.
         try{
             PreparedStatement ps= con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -44,6 +44,7 @@ public class InscripcionData {
             //carga el segundo signo de pregunta con el valor del id_alumno.
             ps.setInt(3, inscripcion.getMateria().getIdMateria());
             //carga el tercer signo de pregunto con el valor del id_materia.
+            ps.setBoolean(4, inscripcion.isActivo());
             ps.executeUpdate();
             //ejecuta la sentencia
             ResultSet rs = ps.getGeneratedKeys();
@@ -84,7 +85,7 @@ public class InscripcionData {
         return inscripciones;
     }
     
-    public List<Inscripcion> obtenerInscripcionesPorAlumno(int idAlumno){
+    public List<Inscripcion> obtenerInscripcionesPorAlumno(int dni){
         Inscripcion inscripcion=null;
         List <Inscripcion> inscripciones = new ArrayList<>();
         String sql="SELECT inscripcion.id_inscripcion, inscripcion.nota,inscripcion.id_alumno,inscripcion.estado FROM inscripcion JOIN alumno "
@@ -93,7 +94,7 @@ public class InscripcionData {
         PreparedStatement ps=null;
         try{
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idAlumno);
+            ps.setInt(1, dni);
             //guardamos en el signo de pregunta el idAlumno, (no seria el dni?)
             ResultSet rs = ps.executeQuery();
             AlumnoData aData = new AlumnoData();
@@ -108,9 +109,7 @@ public class InscripcionData {
                 inscripcion.setActivo(rs.getBoolean("estado"));
                 inscripciones.add(inscripcion);
                 //se recuperan los campos de la base de datos para mostrarlos.
-            }/*else{
-                JOptionPane.showMessageDialog(null, "La inscripcion no existe ");
-            }*/
+            }
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la lista de inscripciones "+ex.getMessage());
@@ -284,9 +283,8 @@ public class InscripcionData {
                 alumno.setFechaNac(aData.buscarAlumno(rs.getInt("id_alumno")).getFechaNac());
                 alumno.setActivo(true);
                 alumnos.add(alumno);
-            }/*else{
-                JOptionPane.showMessageDialog(null, "La inscripcion no existe");
-            }*/
+            }
+                    
             ps.close();
         } catch (SQLException ex) {
             Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
@@ -294,6 +292,28 @@ public class InscripcionData {
         JOptionPane.showMessageDialog(null, "No hay alumnos inscriptos en la materia "+ ex.getMessage());
         }
         return alumnos;
+    }
+    
+    public Materia obtenerMateriaXInscripcion(int idInscripcion){
+        String sql = "SSELECT materia.id_materia,materia.nombre,materia.año,materia.estado "
+                + "FROM materia JOIN inscripcion "
+                + "WHERE materia.id_materia = inscripcion.id_materia "
+                + "AND inscripcion.id_inscripcion = ?";
+        Materia materia = new Materia();
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idInscripcion);
+            ResultSet rs= ps.executeQuery();          
+            if(rs.next()){
+                materia.setIdMateria(rs.getInt("id_materia"));
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("año"));
+                materia.setActivo(rs.getBoolean("estado"));
+            }
+        }catch(SQLException err){
+            JOptionPane.showMessageDialog(null, "Error al comunicarse con base de datos");
+        }
+        return materia;
     }
     
 }

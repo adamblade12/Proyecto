@@ -7,6 +7,7 @@ package Vista;
 
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import proyecto_transversal.AccesoDatos.InscripcionData;
 import proyecto_transversal.AccesoDatos.MateriaData;
@@ -47,18 +48,25 @@ public class AlumnosXMaterias extends javax.swing.JInternalFrame {
     }
     
     public void cargarTabla(){
+        borrarFilas();
         InscripcionData iData = new InscripcionData();
         //Extraigo idMateria desde el item seleccionado en el comboBOx
         String seleccionado = jcMaterias.getSelectedItem().toString();
-        //Utilizo el metodo AlumnosXMaterias de la clase InscripcionData
-        List<Alumno> alumnos = iData.obtenerAlumnoXMateria(Integer.parseInt(seleccionado.split(",")[0]));
-        //Cargo la tabla con los alumnos obtenidos
-        for(Alumno lista:alumnos){
-            tModel.addRow(new Object[] {lista.getIdAlumno(),
-                lista.getDni(),
-                lista.getApellido(),
-                lista.getNombre()
-            });
+        try{
+            //Utilizo el metodo AlumnosXMaterias de la clase InscripcionData
+            List<Alumno> alumnos = iData.obtenerAlumnoXMateria(Integer.parseInt(seleccionado.split(",")[0]));
+            //Cargo la tabla con los alumnos obtenidos
+            if(!alumnos.isEmpty()){
+                for(Alumno lista:alumnos){
+                    tModel.addRow(new Object[] {lista.getIdAlumno(),
+                    lista.getDni(),
+                    lista.getApellido(),
+                    lista.getNombre()
+                    });
+                }
+            } 
+        }catch(NullPointerException err){
+            JOptionPane.showMessageDialog(null, "No hay alumnos para esa materia");
         }
     }
     
@@ -198,7 +206,7 @@ public class AlumnosXMaterias extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jSalirActionPerformed
 
     private void jcMateriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcMateriasActionPerformed
-borrarFilas();
+
         cargarTabla();        // TODO add your handling code here:
     }//GEN-LAST:event_jcMateriasActionPerformed
 
