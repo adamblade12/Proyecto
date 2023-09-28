@@ -209,14 +209,16 @@ public class ActualizarNota extends javax.swing.JInternalFrame {
     private void jbGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGuardarActionPerformed
         // TODO add your handling code here:
         int idAlumno=0,idMateria=0;
-        int modificada = jtMaterias.getEditingRow();
+        int fila= jtMaterias.getSelectedRow();
         AlumnoData aData = new AlumnoData();
         String dni = jcAlumnos.getSelectedItem().toString();
-        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));//buscamos el alumno selec y sus datos
+        Alumno alumno = aData.buscarPorDni(Integer.parseInt(dni.split(",")[0]));
         InscripcionData iData = new InscripcionData();
-        Materia materia = iData.obtenerMateriaXInscripcion(Integer.parseInt(tModelo.getValueAt(modificada, 0).toString()));
+        Materia materia = iData.obtenerMateriaXInscripcion(Integer.parseInt(tModelo.getValueAt(fila, 0).toString()));
+        idAlumno = alumno.getIdAlumno();
         idMateria = materia.getIdMateria();
-        iData.actualizarNota(idAlumno, idMateria, Integer.parseInt(tModelo.getValueAt(modificada, 2).toString()));
+        int editado = Integer.parseInt(tModelo.getValueAt(fila, 2).toString());
+        iData.actualizarNota(idAlumno, idMateria,editado);
     }//GEN-LAST:event_jbGuardarActionPerformed
 
     private void jbSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalirActionPerformed

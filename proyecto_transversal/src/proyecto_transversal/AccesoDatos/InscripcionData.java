@@ -295,7 +295,7 @@ public class InscripcionData {
     }
     
     public Materia obtenerMateriaXInscripcion(int idInscripcion){
-        String sql = "SSELECT materia.id_materia,materia.nombre,materia.año,materia.estado "
+        String sql = "SELECT materia.id_materia,materia.nombre,materia.año,materia.estado "
                 + "FROM materia JOIN inscripcion "
                 + "WHERE materia.id_materia = inscripcion.id_materia "
                 + "AND inscripcion.id_inscripcion = ?";
